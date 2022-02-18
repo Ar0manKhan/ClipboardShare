@@ -23,6 +23,10 @@ def create(request):
     return redirect(reverse("basic:getroom", args=[room_code, ]))
 
 
+def join_room(request):
+    return redirect(reverse("basic:getroom", args=[request.GET.get("room_code")]))
+
+
 class GetRoom(View):
     def get(self, request, room_id):
         return HttpResponse(f"Your room id is {room_id}")
