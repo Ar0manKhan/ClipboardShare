@@ -13,6 +13,7 @@ def generate_string() -> str:
 class Room(models.Model):
     room_code = models.CharField(
         max_length=4,
+        unique=True,
         default=generate_string
     )
     created = models.DateTimeField(default=now, editable=False)
