@@ -1,0 +1,21 @@
+{% extends 'basic/base.html' %}
+
+{% block base %}
+<h1>Room code: {{ room_list.id }}</h1>
+<h3>Create on: {{ room_list.created }} UTC</h3>
+<i>Note:- This room may gets deleted after 24hr of creation</i>
+<hr>
+<h2>Clipboard contents</h2>
+<ul>
+    {% for text in room_list.clipboard_set.all %}
+    <li>{{ text.text }}<br>{{ text.created }}</li>
+    {% endfor %}
+</ul>
+<hr>
+<h2>Add Clipboard data</h2>
+<form method="post" action={% url 'basic:getroom' room_list.id %}>
+    <input type="text" name='text'>
+    <input type="submit">
+    {% csrf_token %}
+</form>
+{% endblock %}
