@@ -1,5 +1,5 @@
-from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import redirect, render
+from django.http import Http404, HttpResponse, HttpResponseRedirect
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from .models import Room, Clipboard
 from django.views import generic
@@ -32,5 +32,11 @@ class GetRoom(generic.DetailView):
     template_name = "basic/room.html"
     context_object_name = "room_list"
 
-    def post(self, request):
-        pass
+    def post(self, request, pk):
+        data = request.POST.get('text')
+        room = get_object_or_404(Room, pk=pk)
+        try:
+            room.clipboard_set.create(text=data)
+        except:
+            return Http404()
+        return redirect(request.path)
