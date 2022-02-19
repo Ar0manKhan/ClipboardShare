@@ -2,7 +2,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from .models import Room, Clipboard
-from django.views import View
+from django.views import generic
 from django.db.utils import IntegrityError
 
 # Create your views here.
@@ -27,9 +27,10 @@ def join_room(request):
     return redirect(reverse("basic:getroom", args=[request.GET.get("room_code")]))
 
 
-class GetRoom(View):
-    def get(self, request, room_id):
-        return HttpResponse(f"Your room id is {room_id}")
+class GetRoom(generic.DetailView):
+    model = Room
+    template_name = "basic/room.html"
+    context_object_name = "room_list"
 
     def post(self, request):
         pass
