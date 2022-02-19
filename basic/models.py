@@ -11,7 +11,7 @@ def generate_string() -> str:
 
 
 class Room(models.Model):
-    room_id = models.CharField(
+    id = models.CharField(
         max_length=4,
         unique=True,
         default=generate_string,
@@ -20,7 +20,7 @@ class Room(models.Model):
     created = models.DateTimeField(default=now, editable=False)
 
     def __str__(self) -> str:
-        return f"Room({self.room_id})"
+        return f"Room({self.id})"
 
 
 class Clipboard(models.Model):
@@ -31,3 +31,6 @@ class Clipboard(models.Model):
 
     def __str__(self) -> str:
         return f"Clipboard({self.room}, {self.text})"
+
+    class Meta:
+        ordering = ['-created']
