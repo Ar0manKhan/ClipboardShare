@@ -11,18 +11,20 @@ def generate_string() -> str:
 
 
 class Room(models.Model):
-    room_code = models.CharField(
+    room_id = models.CharField(
         max_length=4,
         unique=True,
-        default=generate_string
+        default=generate_string,
+        primary_key=True
     )
     created = models.DateTimeField(default=now, editable=False)
 
     def __str__(self) -> str:
-        return f"Room({self.room_code})"
+        return f"Room({self.room_id})"
 
 
 class Clipboard(models.Model):
+    # room = models.ForeignKey(Room, to_field="room_code", on_delete=models.CASCADE)
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
     text = models.CharField(max_length=1024)
     created = models.DateTimeField(auto_now=True)
